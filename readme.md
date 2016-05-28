@@ -1,13 +1,17 @@
 # delta
-This tool can show the difference of multiple data sets.
+This tool is able to show the difference of multiple data sets.
 
 ---
 ## Particular Use case:
-This tool can track the changes of a website.  
+Track the changes of a website.  
 
-User can crawl a website using given webcrawler or any other crawling tools.  
-Save the results in json format, and then process the results using this program.  
-The program can then show the difference of each data pair using -o, -m or -c option.  
+User first crawls a website using given webcrawler or any other crawling methods.  
+Save the results in json format, then process the results with this tool.  
+
+After the website is updated with new url and features.
+User crawl the website again, and process the results in the same way.
+
+Then this tool is able to show the changes of the website by checking the difference of each data pair.  
 
 ---
 
@@ -32,7 +36,7 @@ This shows the overlap of data_set1 and data_set2
 `python delta.py -m 6b00c11eff167ff6363e6bff04700a72 ee2f75941d7cef41113df1a8b7166cd9`  
 
 ```
-This shows the values in data_set1 but not in data_set1 2
+This shows the values in data_set1 but not in data_set2
 ( The order of the key matters )
 ```
 
@@ -46,13 +50,13 @@ This shows all the value in either data_set1 or data_set2
 Setup a test DVWA server, assume the IP address is `192.168.57.30`  
 
 Then crawl the website:  
-`scrapy crawl dvwa_login -o results-1.json -t json`
+`scrapy crawl dvwa_login -o dvwa_scanned_origin.json -t json`
 
 Now let's change the website, by adding a new url into any exist page  
 `http://192.168.57.30/newurl.php`  
 
 Then we crawl the website again:  
-`scrapy crawl dvwa_login -o results-2.json -t json`
+`scrapy crawl dvwa_login -o dvwa_scanned_updated_add_newurl.json -t json`
 
 We process the results into our program.
 
@@ -82,7 +86,7 @@ http://192.168.57.30/newurl.php
   * pip install mmh3 (2.3.1)
   * pip install urllib3 (1.14)
 
-( The versions listed are tested. Other versions may work too, but not tested yet. )
+( The versions listed pass the tests. Other versions need more investigation. )
 
 ## Config Settings
 ##### delta.py
@@ -102,7 +106,7 @@ Visit [scrapy tutorial](http://doc.scrapy.org/en/latest/intro/tutorial.html) for
 ## Unique index name in Elastic Search  
 We use index names 'lookup' and 'deltadb' for data storage in Elastic Search  
 The index names should be unique in Elastic Search.  
-If not, there will be problems when processing data.
+If not, there may be problems when processing data.
 
 ---
 
@@ -128,7 +132,7 @@ Options:
 ## Version
 version 1.0
 
--- This program is first beta version.
+-- First beta version.
 
 
 ## Code Quality ##
