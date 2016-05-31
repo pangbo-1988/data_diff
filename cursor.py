@@ -30,7 +30,6 @@ class Cursor(object):
 
     def save_cursor(self, cursor_data):
         cursor_id = mmh3.hash(self.data_from)
-        print cursor_id
         res = self.es.index(index="lookup", 
                             doc_type="data", 
                             id=cursor_id, 

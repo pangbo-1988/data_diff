@@ -1,5 +1,5 @@
 # delta
-This tool is able to show the difference of multiple data sets.
+This tool is able to show the difference of multiple data sets.  
 
 ---
 ## Particular Use case:
@@ -11,7 +11,7 @@ Save the results in json format, then process the results with this tool.
 After the website is updated with new url and features.
 User crawl the website again, and process the results in the same way.
 
-Then this tool is able to show the changes of the website by checking the difference of each data pair.  
+Then this tool is able to show changes of the website by checking the difference of each data pair.  
 
 ---
 
@@ -89,22 +89,20 @@ http://192.168.57.30/newurl.php
 ( The versions listed pass the tests. Other versions need more investigation. )
 
 ## Config Settings
-##### delta.py
-Set Elastic Search IP address and port in `delta/config.py`
+##### delta
 
-Key value:
-The key value in the json data determines whether two data are same.
-The default values are 'url_base' and 'url_parameters', and can be configed in `delta/config.py`.
-
+In `config.py`:  
+Set Elastic Search IP address and port.  
+Set Key value names.  
+( The key value names in the json data determine whether two data are same. )
 
 ##### webcrawler
-Set website login url, username and password in  
-`webcrawler/webcrawler/spiders/dvwa_spider.py`  
+Set website login url, username and password in `webcrawler/webcrawler/spiders/dvwa_spider.py`  
 Visit [scrapy tutorial](http://doc.scrapy.org/en/latest/intro/tutorial.html) for more info about crawling a website.  
 
 
 ## Unique index name in Elastic Search  
-We use index names 'lookup' and 'deltadb' for data storage in Elastic Search  
+This tool uses index names 'lookup' and 'deltadb' for data storage in Elastic Search  
 The index names should be unique in Elastic Search.  
 If not, there may be problems when processing data.
 
@@ -112,27 +110,26 @@ If not, there may be problems when processing data.
 
 ## Usage
 ```
-Usage: delta.py [options]  
+Usage: delta.py [options]
 
 Options:
-  -h, --help            show this help message and exit  
-  -l, --list            list all available data sets  
-  -p FILE data_source, --process=FILE data_source  
-                        process file into data base  
-  -o [HASH 1] [HASH 2], --diff-overlap=[HASH 1] [HASH 2]  
-                        find the overlap of 2 data sets  
-  -m [HASH 1] [HASH 2], --diff-minus=[HASH 1] [HASH 2]  
+  -h, --help            show this help message and exit
+  -l, --list            list all available data sets
+  -p FILE data_source, --process=FILE data_source
+                        process file into data base
+  -o [HASH 1] [HASH 2], --diff-overlap=[HASH 1] [HASH 2]
+                        find the overlap of 2 data sets
+  -m [HASH 1] [HASH 2], --diff-minus=[HASH 1] [HASH 2]
                         find the data in data set 1 but excluded from data set
-                        2  
-  -c [HASH 1] [HASH 2], --diff-combine=[HASH 1] [HASH 2]  
+                        2
+  -c [HASH 1] [HASH 2], --diff-combine=[HASH 1] [HASH 2]
                         find the combined data set from data set 1 and data
-                        set 2  
+                        set 2
+  -D, --delete-all      Delete all data
 ```
 
 ## Version
 version 1.0
-
--- First beta version.
 
 
 ## Code Quality ##
@@ -141,7 +138,7 @@ More tests will be released.
 
 ## Coding Style
 
-Will format the coding style in the next version.
+Will format coding style in the next version.
 
 
 ## Output format
@@ -151,6 +148,6 @@ Currently the output data is json format, as is same with Elastic Search output.
 
 ## Future upgrade plan
 
-This program will allow more kinds of input format and be able to delete processed data.  
+This tool will allow more kinds of input format.  
 
 

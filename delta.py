@@ -36,6 +36,9 @@ def main():
                       dest="diff_combine",
                       metavar="[HASH 1] [HASH 2]", 
                       help="find the combined data set from data set 1 and data set 2")
+    parser.add_option("-D", "--delete-all",
+                      action="store_true", dest="delete_all",
+                      help="Delete all data")
 
     (opts, args) = parser.parse_args()
 
@@ -76,6 +79,9 @@ def main():
         q = Query(es)
         res = q.search_match_field_value_a_or_b(source_1, version_1, source_2, version_2)
         print json.dumps(res, indent=2)
+    elif opts.delete_all:
+        q = Query(es)
+        q.delete_all_data()
     else:
         # ignore other options
         parser.print_help()
@@ -83,6 +89,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 

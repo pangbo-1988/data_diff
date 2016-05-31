@@ -57,6 +57,7 @@ class Processor(object):
         # load data
         data = self.load()
         # index to elastic search
+        print "\nStart processing"
         cursor = Cursor(self.es, self.data_from)
         cursor_num = cursor.get_new_cursor()
         for each_data in data:
@@ -84,6 +85,8 @@ class Processor(object):
                                     body=node)
             except:
                 continue
+        print "\nProcess finish."
+
 
     def setup_deltadb_in_es(self):
         delta_create_body = '''

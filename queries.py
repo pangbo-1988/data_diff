@@ -270,5 +270,15 @@ class Query(object):
         return res
 
 
+    def delete_all_data(self):
+        try:
+            res = self.es.indices.delete(index="deltadb")
+            res = self.es.indices.delete(index="lookup")
+            print "\nSuccessfully delete all the data."
+            return True
+        except:
+            print "\nData not found"
+            return False
+
 
 
