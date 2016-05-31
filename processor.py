@@ -7,21 +7,6 @@ import mmh3
 import time
 
 
-class CSVData(object):
-    def __init__(self, data_file):
-        self.data_file = data_file
-    def read_data(self):
-        data_json = []
-        with open(self.data_file, 'r') as f:
-            data_csv = csv.reader(f)
-            for row in data_csv: 
-                single_json = {}
-                single_json["url_base"] = row[0]
-                single_json["url_parameters"] = row[1]
-                data_json.append(single_json)
-        return data_json
-
-
 class Processor(object):
     def __init__(self, es, data_file, data_from):
         self.es = es
@@ -37,14 +22,15 @@ class Processor(object):
             with open(self.data_file, 'r') as f:
                 data_json = json.load(f)
             return data_json
-        elif self.data_file.endswith('.csv'):
-            csv_data = CSVData(self.data_file)
-            return csv_data.read_data()
         else:
-            print "not supported file format. Json and CSV only"
+            print "File not found or not supported file format. Json only"
             return {}
 
-    def update_node(self, node, cursor_num):
+    def update_node(self, node, new_data, cursor_num):
+        old_keys = node.keys()
+        for each_key in new_data.keys():
+            if each_key not in old_keys:
+                node[each_key] = new_data[each_key]
         localtime = time.localtime(time.time())
         node["updated"] = "%s-%s-%s" % (localtime.tm_year, localtime.tm_mon, localtime.tm_mday)
         if self.data_from not in node:
@@ -54,21 +40,15 @@ class Processor(object):
         return node
 
 
-    def create_node(self, each_data, cursor):
-        # add new data
+    def create_node(self, new_data, cursor):
+        # create new data
         new_node = {}
-        new_node["url_base"] = each_data["url_base"]
-        new_node["url_parameters"] = each_data["url_parameters"]
-        new_node["http_header"] = ""
-        # http_body is post body
-        new_node["http_body"] = ""
-        new_node["http_method"] = "GET"
+        for each_value in new_data.keys():
+            new_node[each_value] = new_data[each_value]
         localtime = time.localtime(time.time())
         new_node["created"] = "%s-%s-%s" % (localtime.tm_year, localtime.tm_mon, localtime.tm_mday)
         new_node["updated"] = new_node["created"]
         new_node[self.data_from] = [cursor]
-        # tag is used for form submission
-        new_node["tag"] = ""
         return new_node
 
 
@@ -91,7 +71,7 @@ class Processor(object):
                                 doc_type="data", 
                                 id=hashkey)
                 if res["found"]:
-                    node = self.update_node(res["_source"], cursor_num)
+                    node = self.update_node(res["_source"], each_data, cursor_num)
                 else:
                     node = self.create_node(each_data, cursor_num)
             except:

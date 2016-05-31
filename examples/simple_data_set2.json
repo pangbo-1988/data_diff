@@ -1,11 +1,14 @@
 [
     {
-        "url_parameters": "", 
-        "url_base": "http://www.test2.com/unique"
+        "useless_value": "useless value", 
+        "test_key2": "a_key", 
+        "test_key": "http://www.test2.com/unique"
     },
     {
-        "url_parameters": "", 
-        "url_base": "http://www.test1test2.com/"
+        "another_value": "another value", 
+        "test_key2": "a_key", 
+        "test_key": "http://www.test1test2.com/"
     }
 ]
+
 
